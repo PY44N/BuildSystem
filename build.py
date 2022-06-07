@@ -2,6 +2,7 @@ import os
 from sys import platform
 import argparse
 import multiprocessing
+from threading import Thread
 
 # Settings
 CC = "g++"  # The compiler
@@ -33,18 +34,34 @@ if platform == "win32":
     NAME += ".exe"
 
 objects = []
+toCompile = []
 
 for subdir, dirs, files in os.walk(SRCDIR):
     for file in files:
-        if FILEENDING not in file:
-            continue
+        if FILEENDING in file:
+            toCompile.append(os.path.join(subdir, file))
 
-        inputFile = os.path.join(subdir, file)
+
+def compileTask():
+    while len(toCompile) > 0:
+        inputFile = toCompile.pop(0)
         outputFile = inputFile.replace(FILEENDING, ".o")
         cmd = f"{CC} -o {outputFile} -c {inputFile} {CFLAGS}"
         print(cmd)
         os.system(cmd)
         objects.append(outputFile)
+
+
+threads = []
+
+for i in range(jobCount):
+    threads.append(Thread(target=compileTask, name=str(i)))
+
+for thread in threads:
+    thread.start()
+
+for thread in threads:
+    thread.join()
 
 objectString = " ".join(objects)
 cmd = f"{CC} -o {NAME} {objectString} {LINKFLAGS}"
