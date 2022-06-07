@@ -4,13 +4,15 @@ import argparse
 import multiprocessing
 
 # Settings
-CC = "gcc"  # The compiler
-CFLAGS = "-std=c17"  # Compiler flags
+CC = "g++"  # The compiler
+CFLAGS = "-std=c++17"  # Compiler flags
 
 LINKFLAGS = ""  # Linker flags
 
 NAME = "out"  # Executable name
 SRCDIR = "src"  # Source directory
+
+FILEENDING = ".cpp"  # The file ending for the language
 
 # Source
 
@@ -34,11 +36,11 @@ objects = []
 
 for subdir, dirs, files in os.walk(SRCDIR):
     for file in files:
-        if ".c" not in file:
+        if FILEENDING not in file:
             continue
 
         inputFile = os.path.join(subdir, file)
-        outputFile = inputFile.replace(".c", ".o")
+        outputFile = inputFile.replace(FILEENDING, ".o")
         cmd = f"{CC} -o {outputFile} -c {inputFile} {CFLAGS}"
         print(cmd)
         os.system(cmd)
