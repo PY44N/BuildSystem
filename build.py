@@ -2,13 +2,13 @@ import os
 from sys import platform
 
 # Settings
-CC = "gcc"
-CFLAGS = "-std=c17"
+CC = "gcc"  # The compiler
+CFLAGS = "-std=c17"  # Compiler flags
 
-LINKFLAGS = ""
+LINKFLAGS = ""  # Linker flags
 
-NAME = "out"
-SRCDIR = "src"
+NAME = "out"  # Executable name
+SRCDIR = "src"  # Source directory
 
 # Source
 
