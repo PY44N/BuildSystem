@@ -26,6 +26,10 @@ parser.add_argument("-j", "--jobs", type=int,
 parser.add_argument("-c", "--clean", action='store_true',
                     help="Clean up object files after build")
 
+parser.add_argument("-r", "--run", action='store_true',
+                    help="Run the file after compiling")
+
+
 args = parser.parse_args()
 
 jobCount = args.jobs
@@ -77,3 +81,6 @@ if args.clean:
             file = os.path.join(subdir, file)
             print(f"Removing {file}")
             os.remove(file)
+
+if args.run:
+    os.system(NAME)
