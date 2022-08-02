@@ -83,4 +83,4 @@ if args.clean:
             os.remove(file)
 
 if args.run:
-    os.system(NAME)
+    os.system(f"./{NAME}")
